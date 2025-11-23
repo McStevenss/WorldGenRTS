@@ -36,6 +36,6 @@ HEIGHT_THRESHOLDS = [
     (0.55,  "GRASS"),
     (0.60,  "DARKGRASS"),
     (0.75,  "TREES"),
-    (0.95,  "ROCK"),
-    (100.00,  "MOUNTAIN")
+    (0.85,  "ROCK"),
+    (120.00,  "MOUNTAIN")
 ]
