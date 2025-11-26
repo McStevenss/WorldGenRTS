@@ -41,7 +41,9 @@ class Engine:
         ########################################################
 
 
-        # self.renderer.draw_map_to_image(map_data=self.map.static_mapdata)
+        # self.renderer.draw_map_to_image(map_data=self.map.static_mapdata, imname="fullres")
+        # self.renderer.draw_map_to_image(map_data=self.map.kernel_map, imname="kernel")
+        
 
         self.cursor = Cursor(self,self.map)
 

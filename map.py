@@ -5,7 +5,7 @@ from tile import Tile
 # from config import TileIds, HEIGHT_MAPPING
 from config import TileIds, HEIGHT_THRESHOLDS
 import cv2
-
+from scipy.ndimage import uniform_filter
 
 
 class Map:
@@ -108,7 +108,13 @@ class Map:
 
         self.static_mapdata = self.process_generated_world(world)
 
+
+        smoothed = uniform_filter(world, size=5)
+        kernel_map = smoothed[::5, ::5]
+        self.kernel_map = self.process_generated_world(kernel_map)
+
         cv2.imwrite("test_static.png", world*255.0)
+        cv2.imwrite("test_static_kernel.png", kernel_map*255.0)
         # map_data = self.process_generated_world(world)
 
 

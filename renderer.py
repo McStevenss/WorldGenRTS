@@ -49,7 +49,7 @@ class Renderer:
         """Convert a Pygame surface to a NumPy array in RGB format."""
         return pygame.surfarray.array3d(surface).transpose(1, 0, 2)  # Pygame uses (width, height)
 
-    def draw_map_to_image(self, map_data: List[List['Tile']]) -> np.ndarray:
+    def draw_map_to_image(self, map_data: List[List['Tile']], imname) -> np.ndarray:
         """
         Draws the tile map onto an image array.
 
@@ -80,7 +80,7 @@ class Renderer:
 
         print("tile size",sys.getsizeof(map_data[10][10]))
         img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-        cv2.imwrite("textured_image.png", img)
+        cv2.imwrite(f"{imname}.png", img)
 
 
 
