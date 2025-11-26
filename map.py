@@ -36,6 +36,24 @@ class Map:
     def generate_region_at(self,x,y, resolution=(200,200), sample_size = 1):
         self.region_data = self.generate_region(x,y,resolution, sample_size)
    
+    def generate_falloff_map(self, width, height, exponent=3):
+        """
+        Generate a falloff map for island generation.
+        exponent: controls how sharp the falloff is (higher = sharper edges)
+        """
+        # Create normalized coordinates from -1 to 1
+        x = np.linspace(-1, 1, width)
+        y = np.linspace(-1, 1, height)
+        xv, yv = np.meshgrid(x, y)
+        
+        # Compute distance from center (0,0)
+        distance = np.sqrt(xv**2 + yv**2)
+        
+        # Apply falloff curve
+        falloff = np.clip(distance**exponent, 0, 1)
+        
+        return falloff
+
     def generate_world(self):
         world = np.zeros((self.height, self.width))
         
@@ -57,8 +75,12 @@ class Map:
             self.global_max = world.max()
             self.get_global_min_max = False
 
+        
         # Normalize to 0–1
         world = (world - self.global_min) / (self.global_max - self.global_min)
+        
+        falloff_map = self.generate_falloff_map(self.width,self.height,exponent=10)
+        world = np.clip(world - falloff_map, 0, 1)
 
         map_data = self.process_generated_world(world)
         return map_data
