@@ -6,7 +6,7 @@ class Cursor:
         self.map = map
         self.position = [self.map.width//2,self.map.height//2]
         self.local_position = [self.map.width//2,self.map.height//2]
-        self.size = 6
+        self.size = 10
         self.should_generate_new_world = False
 
         self.max_world_offset = 50
@@ -92,4 +92,4 @@ class Cursor:
 
             if event.key == pygame.K_BACKSPACE and keys[pygame.K_BACKSPACE]:
                 self.engine.show_zoomin = False
-                self.size = 6
+                self.size = 10

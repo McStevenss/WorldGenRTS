@@ -10,7 +10,8 @@ class Engine:
         pygame.init()
         ################# Window Dimensions ####################
         self.screen_width = 1024
-        self.screen_height = 1024
+        # self.screen_height = 1024
+        self.screen_height = 1312
         self.size = (self.screen_width, self.screen_height)
         self.display_screen = pygame.display.set_mode(self.size) 
         pygame.display.set_caption("RPGRTS")
@@ -18,13 +19,16 @@ class Engine:
 
         ################# Game Screen Window ###################
         self.game_screen_width = 400
-        self.game_screen_height = 312
+   
+        self.game_screen_height = 400
         self.screen = pygame.Surface((self.game_screen_width,self.game_screen_height))
         self.game_screen_ratio = (self.game_screen_height/self.game_screen_width)
 
+        scale = min(self.screen_width, self.screen_height) / (self.game_screen_width)
+        print(scale)
 
-        self.game_window_width = self.screen_width
-        self.game_window_height = self.screen_height * self.game_screen_ratio
+        self.game_window_width = self.game_screen_width * scale
+        self.game_window_height = self.game_screen_height * scale
         ########################################################
 
         self.renderer = Renderer(self)

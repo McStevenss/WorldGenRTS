@@ -95,8 +95,7 @@ class Map:
 
     def get_tile_type(self,value):
         for threshold, tile in HEIGHT_THRESHOLDS:
-            if value < threshold:
-                print(value,threshold, tile)
+            if value <= threshold:
                 return tile
 
    
