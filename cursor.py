@@ -35,7 +35,6 @@ class Cursor:
 
 
         if self.should_generate_new_world:
-            print(self.map.world_offset_x, self.map.world_offset_y)
             self.map.map_data = self.map.generate_world()
             self.should_generate_new_world = False
   

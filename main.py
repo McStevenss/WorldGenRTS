@@ -40,6 +40,9 @@ class Engine:
         self.map = Map(width=self.map_width, height=self.map_height)
         ########################################################
 
+
+        # self.renderer.draw_map_to_image(map_data=self.map.static_mapdata)
+
         self.cursor = Cursor(self,self.map)
 
         self.GUI = GUI(self.display_screen, 

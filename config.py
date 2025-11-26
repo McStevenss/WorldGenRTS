@@ -15,7 +15,7 @@ class TileIds(Enum):
     MOUNTAIN = (8,4)
     ############################
 
-    ####### Cursor Tiles #######
+    ###### Cursor Tiles #######
     CURSOR = (3,13)
     CURSOR_TL = (4,13)
     CURSOR_TR = (5,13)
@@ -29,13 +29,24 @@ class TileIds(Enum):
     ############################
 
 
+# HEIGHT_THRESHOLDS = [
+#     (0,  "DARKWATER"),
+#     (0.30,  "WATER"),
+#     (0.35,  "SAND"),
+#     (0.55,  "GRASS"),
+#     (0.60,  "DARKGRASS"),
+#     (0.75,  "TREES"),
+#     (0.85,  "ROCK"),
+#     (120.00,  "MOUNTAIN")
+# ]
+
 HEIGHT_THRESHOLDS = [
-    (0,  "DARKWATER"),
-    (0.30,  "WATER"),
-    (0.35,  "SAND"),
-    (0.55,  "GRASS"),
-    (0.60,  "DARKGRASS"),
-    (0.75,  "TREES"),
-    (0.85,  "ROCK"),
+    (0.1,  "DARKWATER"),
+    (0.20,  "WATER"),
+    (0.25,  "SAND"),
+    (0.35,  "GRASS"),
+    (0.40,  "DARKGRASS"),
+    (0.55,  "TREES"),
+    (0.65,  "ROCK"),
     (120.00,  "MOUNTAIN")
 ]

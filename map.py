@@ -4,7 +4,7 @@ from typing import List
 from tile import Tile
 # from config import TileIds, HEIGHT_MAPPING
 from config import TileIds, HEIGHT_THRESHOLDS
-
+import cv2
 
 
 
@@ -32,6 +32,9 @@ class Map:
         self.map_data = self.generate_world()
         
         self.region_data = None
+        self.static_mapdata = None
+
+        # self.generate_static_world()
 
     def generate_region_at(self,x,y, resolution=(200,200), sample_size = 1):
         self.region_data = self.generate_region(x,y,resolution, sample_size)
@@ -53,6 +56,62 @@ class Map:
         falloff = np.clip(distance**exponent, 0, 1)
         
         return falloff
+    
+    def generate_square_falloff_map(self, width, height, exponent=3):
+        """
+        Generate a square falloff map for island/world edges.
+        exponent: controls how sharp the falloff is (higher = sharper edges)
+        """
+        # Create normalized coordinates from -1 to 1
+        x = np.linspace(-1, 1, width)
+        y = np.linspace(-1, 1, height)
+        xv, yv = np.meshgrid(x, y)
+        
+        # Square falloff: distance = max(|x|, |y|)
+        distance = np.maximum(np.abs(xv), np.abs(yv))
+        
+        # Apply falloff curve
+        falloff = np.clip(distance**exponent, 0, 1)
+        
+        return falloff
+    
+    def generate_static_world(self,w=1024,h=1024):
+        world = np.zeros((h, w))
+        
+        for y in range(h):
+            for x in range(w):
+                world[y][x] = noise.pnoise2(
+                    x / 50,
+                    y / 50,
+                    octaves=self.octaves+5,
+                    persistence=self.persistence,
+                    lacunarity=self.lacunarity,
+                    repeatx=2048,
+                    repeaty=2048,
+                    base=self.seed
+                )
+        
+        w_min = world.min()
+        w_max = world.max()
+        print(w_min, w_max)
+        # Normalize to 0–1
+        
+        # This will add a falloff map around the viewed space, better to generate a noise texture probably and apply the falloff map to a bigger map we look around in.
+        # Ex create a world of 1024x1024 or similar once and then apply the falloff map to that instead.
+        # falloff_map = self.generate_falloff_map(w,h,exponent=2)
+        falloff_map = self.generate_square_falloff_map(w,h,exponent=2)
+        
+        # world = np.clip(world - falloff_map, 0, 1)
+        world = world - falloff_map
+
+        world = (world - w_min) / (w_max - w_min)
+
+        self.static_mapdata = self.process_generated_world(world)
+
+        cv2.imwrite("test_static.png", world*255.0)
+        # map_data = self.process_generated_world(world)
+
+
 
     def generate_world(self):
         world = np.zeros((self.height, self.width))
@@ -81,7 +140,7 @@ class Map:
         
         # This will add a falloff map around the viewed space, better to generate a noise texture probably and apply the falloff map to a bigger map we look around in.
         # Ex create a world of 1024x1024 or similar once and then apply the falloff map to that instead.
-        falloff_map = self.generate_falloff_map(self.width,self.height,exponent=10)
+        falloff_map = self.generate_falloff_map(self.width,self.height,exponent=15)
         world = np.clip(world - falloff_map, 0, 1)
 
         map_data = self.process_generated_world(world)
