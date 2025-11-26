@@ -8,7 +8,7 @@ class Renderer:
         self.engine = engine
         self.screen = self.engine.screen
         self.tile_size = 8
-        self.texture_loader = TextureLoader(self.tile_size,"TinyRTS_v06/TinyRTS_v07.png")
+        self.texture_loader = TextureLoader(self.tile_size,"TinyRTS_v06.png")
 
 
     def draw_map(self, map_data: List[List[Tile]]) -> None:
@@ -29,10 +29,10 @@ class Renderer:
             texture = self.texture_loader.get_tile(TileIds.CURSOR.value)
             self.screen.blit(texture, (x*self.tile_size,y*self.tile_size))
         else:
-            TL = self.texture_loader.get_tile(TileIds.CURSOR_TL.value)
-            TR = self.texture_loader.get_tile(TileIds.CURSOR_TR.value)
-            BL = self.texture_loader.get_tile(TileIds.CURSOR_BL.value)
-            BR = self.texture_loader.get_tile(TileIds.CURSOR_BR.value)
+            TL = self.texture_loader.get_tile(TileIds.CURSOR.value)
+            TR = self.texture_loader.get_tile(TileIds.CURSOR.value)
+            BL = self.texture_loader.get_tile(TileIds.CURSOR.value)
+            BR = self.texture_loader.get_tile(TileIds.CURSOR.value)
 
             self.screen.blit(TL, (x*self.tile_size,y*self.tile_size))
             self.screen.blit(TR, ((x+size-1)*self.tile_size,y*self.tile_size))

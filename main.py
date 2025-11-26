@@ -65,8 +65,6 @@ class Engine:
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_ESCAPE:
                     self.done = True
-                if event.key == pygame.K_v and keys[pygame.K_v]:
-                   self.draw_debug = not self.draw_debug
 
 
     def run(self):
@@ -89,6 +87,18 @@ class Engine:
 
             self.GUI.draw_text(5,5,f"Cursor: {self.cursor.position[0]+self.map.world_offset_x, self.cursor.position[1]+self.map.world_offset_y}")
             self.GUI.draw_text(5,5+32,f"Size: {self.cursor.size}")
+            if self.show_zoomin:
+                tile = self.map.region_data[self.cursor.position[1]][self.cursor.position[0]]
+                self.GUI.draw_text(5,5+64,f"Tile height: {round(tile.tile_height,2)} tile type: {tile.tile_type.name}")
+            # A cursor size of 10x10 on a map resolution of 50x50, means 1 world tile sampled equals 50/10 = 5 blocks.
+            # So Resx = resolution on x axis.
+            #    Ss = SampleSize
+            #    (Resx/Ss, Resy/Ss)
+            # So Wx * (Resx/Ss) + RegionX 
+            # So Wy * (Resy/Ss) + RegionY
+
+            # So a region tile placed at 7,2 would then be Rx % (Resy/Ss) = 2. tile offset. Rx // (Resy/Ss) = Wx
+            # So then that tile would be at Wx, and within that tile it would be at xoffset 2
 
 
             pygame.display.flip()

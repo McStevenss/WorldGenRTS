@@ -5,6 +5,7 @@ class Cursor:
         self.engine = engine
         self.map = map
         self.position = [self.map.width//2,self.map.height//2]
+        self.local_position = [self.map.width//2,self.map.height//2]
         self.size = 6
         self.should_generate_new_world = False
 
@@ -32,6 +33,7 @@ class Cursor:
                 self.should_generate_new_world = True
 
         if self.should_generate_new_world:
+
             self.map.map_data = self.map.generate_world()
             self.should_generate_new_world = False
   
@@ -55,14 +57,29 @@ class Cursor:
                 if self.position[0] + self.size < self.map.width:
                     self.position[0] +=1
 
-            if event.key == pygame.K_KP_PLUS and keys[pygame.K_KP_PLUS]:
+
+            if event.key == pygame.K_k and keys[pygame.K_k]:
                     self.size = self.size + 1
                 
-            if event.key == pygame.K_KP_MINUS and keys[pygame.K_KP_MINUS]:
+            if event.key == pygame.K_j and keys[pygame.K_j]:
                 if self.size <= 1:
                     self.size = 1
                 else:
                     self.size = self.size - 1
+
+            if event.key == pygame.K_b and keys[pygame.K_b]:
+                if self.map.scale > 1:
+                    self.map.scale = self.map.scale -1
+                if self.map.octaves > 5:
+                    self.map.octaves = self.map.octaves - 1
+                self.map.map_data = self.map.generate_world()
+
+            if event.key == pygame.K_n and keys[pygame.K_n]:
+                self.map.scale = self.map.scale +1
+                self.map.octaves = self.map.octaves + 1
+
+                self.map.map_data = self.map.generate_world()
+
 
         
             if event.key == pygame.K_RETURN and keys[pygame.K_RETURN]:

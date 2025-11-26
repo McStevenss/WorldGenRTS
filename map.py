@@ -13,7 +13,7 @@ class Map:
 
         self.width = width
         self.height = height
-        self.scale = 55.0         # Larger → smoother terrain
+        self.scale = 10.0         # Larger → smoother terrain
         # self.scale = 10.0       # Larger → smoother terrain
         self.octaves = 5        # More octaves → more detail
         # self.persistence = 0.5   # Amplitude of octaves
@@ -89,12 +89,14 @@ class Map:
                 )
 
         region = (region - self.global_min) / (self.global_max - self.global_min)
-        return self.process_generated_world(region)
+        region  = self.process_generated_world(region)
+        return region
 
 
     def get_tile_type(self,value):
         for threshold, tile in HEIGHT_THRESHOLDS:
-            if value <= threshold:
+            if value < threshold:
+                print(value,threshold, tile)
                 return tile
 
    
@@ -107,7 +109,10 @@ class Map:
                 
                 tile_height = noise_data[y][x]
                 tilename = self.get_tile_type(tile_height)
-                tile = Tile((x,y), TileIds[tilename])
+                try:
+                    tile = Tile((x,y), TileIds[tilename], tile_height)
+                except:
+                    print(f"Failed to get tile {x,y} with tilename '{tilename}' at tileheight {tile_height}")
                 map_data[y].append(tile)
 
         return map_data
