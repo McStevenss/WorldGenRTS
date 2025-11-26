@@ -79,6 +79,8 @@ class Map:
         # Normalize to 0–1
         world = (world - self.global_min) / (self.global_max - self.global_min)
         
+        # This will add a falloff map around the viewed space, better to generate a noise texture probably and apply the falloff map to a bigger map we look around in.
+        # Ex create a world of 1024x1024 or similar once and then apply the falloff map to that instead.
         falloff_map = self.generate_falloff_map(self.width,self.height,exponent=10)
         world = np.clip(world - falloff_map, 0, 1)
 
