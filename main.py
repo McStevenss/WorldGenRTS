@@ -19,8 +19,8 @@ class Engine:
 
         ################# Game Screen Window ###################
         self.game_screen_width = 400
-   
         self.game_screen_height = 400
+   
         self.screen = pygame.Surface((self.game_screen_width,self.game_screen_height))
         self.game_screen_ratio = (self.game_screen_height/self.game_screen_width)
 
@@ -98,7 +98,9 @@ class Engine:
             self.GUI.draw_text(5,5+32,f"Size: {self.cursor.size}")
             if self.show_zoomin:
                 tile = self.map.region_data[self.cursor.position[1]][self.cursor.position[0]]
-                self.GUI.draw_text(5,5+64,f"Tile height: {round(tile.tile_height,2)} tile type: {tile.tile_type.name}")
+            else:
+                tile = self.map.map_data[self.cursor.position[1]][self.cursor.position[0]]
+            self.GUI.draw_text(5,5+64,f"Tile height: {round(tile.tile_height,2)} tile type: {tile.tile_type.name}")
             # A cursor size of 10x10 on a map resolution of 50x50, means 1 world tile sampled equals 50/10 = 5 blocks.
             # So Resx = resolution on x axis.
             #    Ss = SampleSize

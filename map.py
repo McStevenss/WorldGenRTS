@@ -5,22 +5,21 @@ from tile import Tile
 # from config import TileIds, HEIGHT_MAPPING
 from config import TileIds, HEIGHT_THRESHOLDS
 import cv2
-from scipy.ndimage import uniform_filter
-
+from scipy.ndimage import uniform_filter, map_coordinates
 
 class Map:
     def __init__(self, width=50, height=50, seed=42):
 
         self.width = width
         self.height = height
-        self.scale = 10.0         # Larger → smoother terrain
-        # self.scale = 10.0       # Larger → smoother terrain
+        # self.scale = 55.0         # Larger → smoother terrain
+        self.scale = 10.0       # Larger → smoother terrain
         self.octaves = 5        # More octaves → more detail
-        # self.persistence = 0.5   # Amplitude of octaves
         self.persistence = 0.5   # Amplitude of octaves
         self.lacunarity = 4.0    # Frequency of octaves
         self.seed = seed
 
+        self.falloff_exponent = 3
 
         self.world_offset_x = 0
         self.world_offset_y = 0
@@ -28,6 +27,7 @@ class Map:
         self.global_min = None
         self.global_max = None
         self.get_global_min_max = True
+        self.falloff_map = self.generate_square_falloff_map(self.width,self.height,exponent=5)
 
         self.map_data = self.generate_world()
         
@@ -99,7 +99,7 @@ class Map:
         # This will add a falloff map around the viewed space, better to generate a noise texture probably and apply the falloff map to a bigger map we look around in.
         # Ex create a world of 1024x1024 or similar once and then apply the falloff map to that instead.
         # falloff_map = self.generate_falloff_map(w,h,exponent=2)
-        falloff_map = self.generate_square_falloff_map(w,h,exponent=2)
+        falloff_map = self.generate_square_falloff_map(w,h,exponent=self.falloff_exponent)
         
         # world = np.clip(world - falloff_map, 0, 1)
         world = world - falloff_map
@@ -146,14 +146,13 @@ class Map:
         
         # This will add a falloff map around the viewed space, better to generate a noise texture probably and apply the falloff map to a bigger map we look around in.
         # Ex create a world of 1024x1024 or similar once and then apply the falloff map to that instead.
-        falloff_map = self.generate_falloff_map(self.width,self.height,exponent=15)
-        world = np.clip(world - falloff_map, 0, 1)
+        world = np.clip(world - self.falloff_map, 0, 1)
 
         map_data = self.process_generated_world(world)
         return map_data
 
  
-    def generate_region(self, wx, wy, resolution=(200,200), sample_size=1):
+    def generate_region(self, wx, wy, resolution=(50,50), sample_size=1):
         #Numpy handles resolution as y,x instead of x,y
         region = np.zeros((resolution[1],resolution[0]))
         
@@ -165,11 +164,11 @@ class Map:
 
                 nx = (wx / self.scale) + (x / resolution[0]) * noise_span
                 ny = (wy / self.scale) + (y / resolution[1]) * noise_span
-
                 region[y][x] = noise.pnoise2(
                     nx,
                     ny,
-                    octaves=self.octaves+5,
+                    octaves=self.octaves+4,
+                    # octaves=self.octaves,
                     persistence=self.persistence,
                     lacunarity=self.lacunarity,
                     repeatx=1024,
@@ -178,6 +177,20 @@ class Map:
                 )
 
         region = (region - self.global_min) / (self.global_max - self.global_min)
+
+        # Create normalized coordinates in falloff map space
+        fx = np.linspace(wx, wx + sample_size, resolution[0], endpoint=False)
+        fy = np.linspace(wy, wy + sample_size, resolution[1], endpoint=False)
+
+        # Create 2D grid
+        FX, FY = np.meshgrid(fx, fy)
+
+        # Interpolate falloff map
+        falloff_region = map_coordinates(self.falloff_map, [FY, FX], order=1, mode='nearest')
+
+        # Apply falloff
+        region = np.clip(region - falloff_region, 0, 1)
+
         region  = self.process_generated_world(region)
         return region
 

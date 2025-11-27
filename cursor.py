@@ -11,6 +11,9 @@ class Cursor:
 
         self.max_world_offset = 50
 
+        self.world_cursor_size = 5
+        self.region_cursor_size = 2
+
     def handle_pressed(self,keys):
         if keys[pygame.K_LEFT]:
             if self.map.world_offset_x > -self.max_world_offset:
@@ -89,8 +92,8 @@ class Cursor:
                     wy = self.position[1] + self.map.world_offset_y
                     self.map.generate_region_at(wx,wy, resolution=(self.map.width,self.map.height), sample_size=self.size)
                     self.engine.show_zoomin = True
-                    self.size=2
+                    self.size= self.region_cursor_size
 
             if event.key == pygame.K_BACKSPACE and keys[pygame.K_BACKSPACE]:
                 self.engine.show_zoomin = False
-                self.size = 10
+                self.size = self.world_cursor_size

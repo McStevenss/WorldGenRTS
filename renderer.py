@@ -16,13 +16,44 @@ class Renderer:
         self.texture_loader = TextureLoader(self.tile_size,"TinyRTS_v06.png")
 
 
+    # def draw_map(self, map_data: List[List[Tile]]) -> None:
+    #     for y,row in enumerate(map_data):
+    #         for x, tile in enumerate(row):
+    #             x,y = tile.position
+    #             tile_type = tile.tile_type
+    #             texture = self.texture_loader.get_tile(tile_type.value)
+    #             self.screen.blit(texture, (x*self.tile_size,y*self.tile_size))
+
     def draw_map(self, map_data: List[List[Tile]]) -> None:
-        for row in map_data:
-            for tile in row:
-                x,y = tile.position
-                tile_type = tile.tile_type
+        for y, row in enumerate(map_data):
+            for x, tile in enumerate(row):
+                tile_type = self.auto_tile_trees(x,y,map_data)
+                # Load the texture for this tile type
                 texture = self.texture_loader.get_tile(tile_type.value)
-                self.screen.blit(texture, (x*self.tile_size,y*self.tile_size))
+
+                # Draw the tile
+                self.screen.blit(texture, (x * self.tile_size, y * self.tile_size))
+
+
+    def auto_tile_trees(self, x, y ,map_data: List[List[Tile]]):
+        tile_type = map_data[y][x].tile_type
+        # Check if tile is a tree
+        if tile_type == TileIds.TREES:
+            # Check if there's a tile below
+            if y + 1 < len(map_data):
+                tile_below = map_data[y + 1][x]
+                # If the tile below is NOT a tree, make this a treestump
+                if tile_below.tile_type != TileIds.TREES:
+                    tile_type = TileIds.TREESTUMP
+            if y - 1 > 0:
+                tile_above = map_data[y - 1][x]
+                if tile_above.tile_type != TileIds.TREES:
+                    
+                    temp_tex = self.texture_loader.get_tile(TileIds.TREETOP.value)
+                    self.screen.blit(temp_tex, (x * self.tile_size, (y-1) * self.tile_size))
+        
+        
+        return tile_type
 
     def draw_cursor(self, cursor: Cursor):
         

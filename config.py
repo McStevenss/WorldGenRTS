@@ -9,10 +9,18 @@ class TileIds(Enum):
     SAND = (2,0)
     GRASS = (0,1)
     DARKGRASS = (4,1)
-    TREES = (0,5)
+    # TREES = (0,5)
     LIGHTROCK = (7,1)
     ROCK = (6,1)
     MOUNTAIN = (8,4)
+    # TREES = (3,4)
+    # TREESTUMP = (3,5)
+    # TREETOP = (3,3)
+
+    TREES = (0,4)
+    TREESTUMP = (0,5)
+    TREETOP = (0,3)
+
     ############################
 
     ###### Cursor Tiles #######
