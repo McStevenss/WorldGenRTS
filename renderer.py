@@ -7,6 +7,7 @@ import cv2
 import numpy as np
 import pygame
 import sys
+import random
 
 class Renderer:
     def __init__(self, engine):

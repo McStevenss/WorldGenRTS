@@ -6,12 +6,12 @@ class Cursor:
         self.map = map
         self.position = [self.map.width//2,self.map.height//2]
         self.local_position = [self.map.width//2,self.map.height//2]
-        self.size = 10
+        self.size = 5
         self.should_generate_new_world = False
 
         self.max_world_offset = 50
 
-        self.world_cursor_size = 5
+        self.world_cursor_size = self.size
         self.region_cursor_size = 2
 
     def handle_pressed(self,keys):

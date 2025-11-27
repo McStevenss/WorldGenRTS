@@ -5,7 +5,9 @@ class TileIds(Enum):
 
     ####### Terrain Tiles ######
     DARKWATER = (13,2)
+    DARKWATER2 = (14,2)
     WATER = (15,0)
+    WATER2 = (14,4)
     SAND = (2,0)
     GRASS = (0,1)
     DARKGRASS = (4,1)
@@ -50,7 +52,9 @@ class TileIds(Enum):
 
 HEIGHT_THRESHOLDS = [
     (0.1,  "DARKWATER"),
+    (0.13,  "DARKWATER2"),
     (0.20,  "WATER"),
+    (0.22,  "WATER2"),
     (0.25,  "SAND"),
     (0.35,  "GRASS"),
     (0.40,  "DARKGRASS"),
