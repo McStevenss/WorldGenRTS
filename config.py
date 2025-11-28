@@ -11,7 +11,6 @@ class TileIds(Enum):
     SAND = (2,0)
     GRASS = (0,1)
     DARKGRASS = (4,1)
-    # TREES = (0,5)
     LIGHTROCK = (7,1)
     ROCK = (6,1)
     MOUNTAIN = (8,4)
@@ -50,15 +49,28 @@ class TileIds(Enum):
 #     (120.00,  "MOUNTAIN")
 # ]
 
+# HEIGHT_THRESHOLDS = [
+#     (0.1,  "DARKWATER"),
+#     (0.13,  "DARKWATER2"),
+#     (0.20,  "WATER"),
+#     (0.21,  "WATER2"),
+#     (0.25,  "SAND"),
+#     (0.35,  "GRASS"),
+#     (0.40,  "DARKGRASS"),
+#     (0.55,  "TREES"),
+#     (0.65,  "ROCK"),
+#     (120.00,  "MOUNTAIN")
+# ]
+
 HEIGHT_THRESHOLDS = [
     (0.1,  "DARKWATER"),
     (0.13,  "DARKWATER2"),
     (0.20,  "WATER"),
-    (0.22,  "WATER2"),
+    (0.21,  "WATER2"),
     (0.25,  "SAND"),
-    (0.35,  "GRASS"),
-    (0.40,  "DARKGRASS"),
-    (0.55,  "TREES"),
+    (0.55,  "GRASS"),
+    # (0.55,  "DARKGRASS"),
+    # (0.55,  "TREES"),
     (0.65,  "ROCK"),
     (120.00,  "MOUNTAIN")
 ]
