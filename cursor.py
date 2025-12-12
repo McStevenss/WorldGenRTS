@@ -37,9 +37,9 @@ class Cursor:
 
 
 
-        if self.should_generate_new_world:
-            self.map.map_data = self.map.generate_world()
-            self.should_generate_new_world = False
+        # if self.should_generate_new_world:
+        #     self.map.map_data = self.map.generate_world()
+        #     self.should_generate_new_world = False
   
 
     def handle_input(self, event, keys):
@@ -90,9 +90,9 @@ class Cursor:
                 if not self.engine.show_zoomin:
                     wx = self.position[0] + self.map.world_offset_x
                     wy = self.position[1] + self.map.world_offset_y
-                    self.map.generate_region_at(wx,wy, resolution=(self.map.width,self.map.height), sample_size=self.size)
-                    self.engine.show_zoomin = True
-                    self.size= self.region_cursor_size
+                    # self.map.generate_region_at(wx,wy, resolution=(self.map.width,self.map.height), sample_size=self.size)
+                    # self.engine.show_zoomin = True
+                    # self.size= self.region_cursor_size
 
             if event.key == pygame.K_BACKSPACE and keys[pygame.K_BACKSPACE]:
                 self.engine.show_zoomin = False

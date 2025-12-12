@@ -12,7 +12,7 @@ class TileIds(Enum):
     GRASS = (0,1)
     DARKGRASS = (4,1)
     LIGHTROCK = (7,1)
-    ROCK = (6,1)
+    # ROCK = (6,1)
     MOUNTAIN = (8,4)
     # TREES = (3,4)
     # TREESTUMP = (3,5)
@@ -36,7 +36,24 @@ class TileIds(Enum):
     HUMAN_VILLAGE = (1,13)
 
     ############################
+    
 
+    ######## MAP V2 TILES #######
+    OCEAN = (13,2)
+    SHALLOWS = (15,0)
+    BEACH = (2,0)
+    ROCK = (7,1)
+    DARK_ROCK = (6,1)
+    SNOW = (5,2)
+    FOREST = (0,5)
+    TEMPERATE_DESERT = (0,0)
+    TAIGA = (4,4)
+    GRASSLAND = (4,1)
+    TEMPERATE_DECIDUOUS_FOREST = (1,5)
+    TEMPERATE_RAIN_FOREST = (2,5)
+    SUBTROPICAL_DESERT = (1,0)
+    TROPICAL_SEASONAL_FOREST = (2,4)
+    TROPICAL_RAIN_FOREST = (2,5)
 
 # HEIGHT_THRESHOLDS = [
 #     (0,  "DARKWATER"),

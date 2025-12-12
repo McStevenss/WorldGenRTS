@@ -1,5 +1,6 @@
 import pygame
-from map import Map
+# from map import Map
+from map_v2 import Map
 from renderer import Renderer
 from cursor import Cursor
 from gui import GUI
@@ -20,6 +21,8 @@ class Engine:
         ################# Game Screen Window ###################
         self.game_screen_width = 400
         self.game_screen_height = 400
+        # self.game_screen_width = 2048
+        # self.game_screen_height = 2048
    
         self.screen = pygame.Surface((self.game_screen_width,self.game_screen_height))
         self.game_screen_ratio = (self.game_screen_height/self.game_screen_width)
@@ -100,7 +103,7 @@ class Engine:
                 tile = self.map.region_data[self.cursor.position[1]][self.cursor.position[0]]
             else:
                 tile = self.map.map_data[self.cursor.position[1]][self.cursor.position[0]]
-            self.GUI.draw_text(5,5+64,f"Tile height: {round(tile.tile_height,2)} tile type: {tile.tile_type.name}")
+            # self.GUI.draw_text(5,5+64,f"Tile height: {round(tile.tile_height,2)} tile type: {tile.tile_type.name}")
             # A cursor size of 10x10 on a map resolution of 50x50, means 1 world tile sampled equals 50/10 = 5 blocks.
             # So Resx = resolution on x axis.
             #    Ss = SampleSize
@@ -112,8 +115,9 @@ class Engine:
             # So then that tile would be at Wx, and within that tile it would be at xoffset 2
 
 
-            pygame.display.flip()
             self.clock.tick(self.tick_rate)
+            print(self.clock.get_fps())
+            pygame.display.flip()
         # Close the window and quit.
         print("Goodbye!")
         pygame.quit()

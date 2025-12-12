@@ -7,7 +7,6 @@ import cv2
 import numpy as np
 import pygame
 import sys
-import random
 
 class Renderer:
     def __init__(self, engine):
@@ -17,12 +16,24 @@ class Renderer:
         self.texture_loader = TextureLoader(self.tile_size,"TinyRTS_v06.png")
 
 
-    def draw_map(self, map_data: List[List[Tile]]) -> None:
-        for y, row in enumerate(map_data):
-            for x, tile in enumerate(row):
-                tile_type = self.auto_tile_trees(x,y,map_data)
-                # Load the texture for this tile type
-                texture = self.texture_loader.get_tile(tile_type.value)
+    # def draw_map(self, map_data: List[List[Tile]]) -> None:
+    #     for y, row in enumerate(map_data):
+    #         for x, tile in enumerate(row):
+    #             tile_type = self.auto_tile_trees(x,y,map_data)
+    #             # Load the texture for this tile type
+    #             texture = self.texture_loader.get_tile(tile_type.value)
+
+    #             # Draw the tile
+    #             self.screen.blit(texture, (x * self.tile_size, y * self.tile_size))
+
+    def draw_map(self, map_data: np.ndarray) -> None:
+        height, width, _ = map_data.shape
+        for y in range(height):
+            for x in range(width):
+
+                tile_tuple = tuple(map_data[y,x])
+
+                texture = self.texture_loader.get_tile(tile_tuple)
 
                 # Draw the tile
                 self.screen.blit(texture, (x * self.tile_size, y * self.tile_size))
