@@ -111,7 +111,8 @@ class Map:
 
         self.width = width
         self.height = height
-        self.scale = 55.0       # Larger → smoother terrain
+        # self.scale = 55.0       # Larger → smoother terrain
+        self.scale = 10.0       # Larger → smoother terrain
         self.octaves = 5        # More octaves → more detail
         self.persistence = 0.4   # Amplitude of octaves
         self.lacunarity = 4.5    # Frequency of octaves

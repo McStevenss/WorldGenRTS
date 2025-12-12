@@ -99,10 +99,10 @@ class Engine:
 
             self.GUI.draw_text(5,5,f"Cursor: {self.cursor.position[0]+self.map.world_offset_x, self.cursor.position[1]+self.map.world_offset_y}")
             self.GUI.draw_text(5,5+32,f"Size: {self.cursor.size}")
-            if self.show_zoomin:
-                tile = self.map.region_data[self.cursor.position[1]][self.cursor.position[0]]
-            else:
-                tile = self.map.map_data[self.cursor.position[1]][self.cursor.position[0]]
+            # if self.show_zoomin:
+            #     tile = self.map.region_data[self.cursor.position[1]][self.cursor.position[0]]
+            # else:
+            #     tile = self.map.map_data[self.cursor.position[1]][self.cursor.position[0]]
             # self.GUI.draw_text(5,5+64,f"Tile height: {round(tile.tile_height,2)} tile type: {tile.tile_type.name}")
             # A cursor size of 10x10 on a map resolution of 50x50, means 1 world tile sampled equals 50/10 = 5 blocks.
             # So Resx = resolution on x axis.
@@ -116,7 +116,7 @@ class Engine:
 
 
             self.clock.tick(self.tick_rate)
-            print(self.clock.get_fps())
+            # print(self.clock.get_fps())
             pygame.display.flip()
         # Close the window and quit.
         print("Goodbye!")
